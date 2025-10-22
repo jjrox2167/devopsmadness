@@ -41,19 +41,19 @@ Auth token stored in cookie/session
 
 Devops Engineering is the cross-road where the traditional SysAdmin or System Engineer meet the needs of Software Development. In order to understand what might be required from a DevOps Engineer, we must understand how someone from the software development team approach or encounter a scenario for the needs of a 'devops' practices.
 
-Our goal is to 
+Our goal is to:
 
-Build an MVP 'full-stack' app from scratch.
+- Build an MVP 'full-stack' app from scratch.
 
-Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
+- Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
 
-Provide a clean base to mimic the need of for containerization & deployment.
+- Provide a clean base to mimic the need of for containerization & deployment.
 
-Deploy to infrastructure
+- Deploy to infrastructure
 
-Practice managing secrets/API Keys.
+- Practice managing secrets/API Keys.
 
-Monitoring and Observability when it comes to the application and system's performance.
+- Monitoring and Observability when it comes to the application and system's performance.
 
 🧠 Next Steps (Future Levels)
 
