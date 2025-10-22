@@ -27,34 +27,6 @@ This level focuses on setting up a complete minimal app — frontend, backend, a
 
 ---
 
-## 🧪 Getting Started
-
-### 1. Clone the repo
-
-```bash
-git clone https://github.com/your-username/devops-madness.git
-cd devops-madness/level-1-auth-quest
-
-2. Install dependencies
-npm install
-
-3. Set up environment variables
-
-Create a .env file:
-
-DATABASE_URL="file:./dev.db"
-JWT_SECRET="your-random-secret"
-
-4. Set up the database
-npx prisma migrate dev --name init
-npx prisma generate
-
-5. Run the app
-npm run dev
-
-
-Then open http://localhost:3000
-
 👤 User Authentication Flow
 
 Register with email & password
