@@ -45,17 +45,15 @@ Devops Engineering is the cross-road where the traditional SysAdmin or System En
 
 - Build an MVP 'full-stack' app from scratch.
 
-- Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
-
+- Deploy to infrastructure
+  
 - Provide a clean base to mimic the need of for containerization & deployment.
 
-- Deploy to infrastructure
-
-- Practice managing secrets/API Keys.
+- Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
 
 - Monitoring and Observability when it comes to the application and system's performance.
 
-## 🧠 Next Steps (Future Levels)
+##  Next Steps (Levels 1,2,3,4,etc.)
 
 Dockerize the application for portfability, containerization, and deployment purposes.
 
