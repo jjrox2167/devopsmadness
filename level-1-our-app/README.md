@@ -37,7 +37,7 @@ Redirected to a protected dashboard
 
 Auth token stored in cookie/session
 
-##📚 Project Goals
+## 📚 Project Goals
 
 Devops Engineering is the cross-road where the traditional SysAdmin or System Engineer meet the needs of Software Development. In order to understand what might be required from a DevOps Engineer, we must understand how someone from the software development team approach or encounter a scenario for the needs of a 'devops' practices.
 
