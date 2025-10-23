@@ -27,7 +27,7 @@ This level focuses on setting up a complete minimal app — frontend, backend, a
 
 ---
 
-##👤 User Authentication Flow
+## 👤 User Authentication Flow
 
 Register with email & password
 
@@ -41,7 +41,7 @@ Auth token stored in cookie/session
 
 Devops Engineering is the cross-road where the traditional SysAdmin or System Engineer meet the needs of Software Development. In order to understand what might be required from a DevOps Engineer, we must understand how someone from the software development team approach or encounter a scenario for the needs of a 'devops' practices.
 
-###Our goal is to:
+### Our goal is to:
 
 - Build an MVP 'full-stack' app from scratch.
 
@@ -55,7 +55,7 @@ Devops Engineering is the cross-road where the traditional SysAdmin or System En
 
 - Monitoring and Observability when it comes to the application and system's performance.
 
-##🧠 Next Steps (Future Levels)
+## 🧠 Next Steps (Future Levels)
 
 Dockerize the application for portfability, containerization, and deployment purposes.
 
@@ -66,7 +66,7 @@ Add GitHub Actions for Contineous Intergration / Continuous Deployment.
 Enable real-time logging & monitoring of Application and System performance.
 
 
-##📂 Related
+## 📂 Related
 
 This is Level 1 of the DevOps Madness project portfolio.
     please see level 2 next!
