@@ -3,8 +3,24 @@
 Welcome to **Level 1** of DevOps Madness: a simple full-stack authentication app built with [Next.js](https://nextjs.org/) (App Router), API routes, and Prisma + SQLite.
 
 
-This level focuses on setting up a complete minimal app — frontend, backend, and database — that will serve as the foundation for future DevOps workflows (CI/CD, Docker, cloud deployment, etc.).
+This level focuses on setting up a complete minimal storefront app — with a frontend, backend, and database — that will serve as the foundation for future DevOps workflows (CI/CD, Docker, cloud deployment, etc.).
 
+---
+## 📚 Project Goals
+
+DevOps engineering sits at the intersection of traditional system administration and modern software development.
+To understand what’s expected of a DevOps engineer, we first need to see how software developers encounter and respond to the kinds of challenges that DevOps practices aim to solve.
+
+### Our goal is to:
+
+Build an MVP full-stack application from scratch.
+- Deploy to infrastructure
+  
+- Provide a clean base to mimic the need of for containerization & deployment.
+
+- Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
+
+- Monitoring and Observability when it comes to the application and system's performance.
 ---
 
 ## 🚀 Features
@@ -36,22 +52,6 @@ Login with credentials
 Redirected to a protected dashboard
 
 Auth token stored in cookie/session
-
-## 📚 Project Goals
-
-Devops Engineering is the cross-road where the traditional SysAdmin or System Engineer meet the needs of Software Development. In order to understand what might be required from a DevOps Engineer, we must understand how someone from the software development team approach or encounter a scenario for the needs of a 'devops' practices.
-
-### Our goal is to:
-
-- Build an MVP 'full-stack' app from scratch.
-
-- Deploy to infrastructure
-  
-- Provide a clean base to mimic the need of for containerization & deployment.
-
-- Prepare a real-world scenario for the need of CI/CD through DevOps pipelines.
-
-- Monitoring and Observability when it comes to the application and system's performance.
 
 ##  Next Steps (Levels 1,2,3,4,etc.)
 
