@@ -7,7 +7,7 @@ There are two architectural design patterns considered for our sample project:
 While the BFF pattern is the recommended long-term approach, the **current implementation** uses a **traditional 3-tier architecture** for simplicity  and isn't necessary as the project is more 'DevOps' focused.
 
 ---
-![BFFPatternOverview](httpsexample.comimagesbff-diagram.png)
+![BFFPatternOverview](BFFArchitecturalDiagram.png)
 ---
 
 ## 💡 The Why Behind My Recommendation:
