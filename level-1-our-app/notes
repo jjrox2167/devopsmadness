@@ -1,10 +1,13 @@
+# Copy of Level-1-Web-App: Architectural Overview 🏗️
+
 There are two architectural design patterns considered for our sample project:
 
 - [ ] Backend-for-Frontend: Mobile & Web  - _Desired (Recommended Long-Term Approach)_
 - [x] 3-Tier Architecture - _Current Implementation_
 While the BFF pattern is the recommended long-term approach, the **current implementation** uses a **traditional 3-tier architecture** for simplicity  and isn't necessary as the project is more 'DevOps' focused.
+
 ---
-[View on Eraser![](https://app.eraser.io/workspace/k0yoLPiex17mJXrhrOat/preview)](https://app.eraser.io/workspace/k0yoLPiex17mJXrhrOat)
+![BFFPatternOverview](httpsexample.comimagesbff-diagram.png)
 ---
 
 ## 💡 The Why Behind My Recommendation:
@@ -30,4 +33,5 @@ It also ensures that each frontend receives exactly what it needs, reducing over
 | ----- | ----- | ----- |
 | **3-Tier Architecture** | Simplicity, maintainability for MVP phase. | ✅ Current |
 | **Backend-for-Frontend (BFF)** | The BFF ensures every frontend gets _exactly_ what it needs; efficiently. | 💭 _Desired_ |
+
 
