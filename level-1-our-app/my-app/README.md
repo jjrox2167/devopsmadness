@@ -1,37 +1,36 @@
-# Level-1-Web-App: Architectural Overview 🏗️
+This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
 
-There are two architectural design patterns considered for our sample project:
+## Getting Started
 
-- [ ] Backend-for-Frontend: Mobile & Web  - _Desired (Recommended Long-Term Approach)_
-- [x] 3-Tier Architecture - _Current Implementation_
-While the BFF pattern is the recommended long-term approach, the **current implementation** uses a **traditional 3-tier architecture** for simplicity  and isn't necessary as the project is more 'DevOps' focused.
+First, run the development server:
 
----
-![BFFPatternOverview](BFFArchitecturalDiagram.png)
+```bash
+npm run dev
+# or
+yarn dev
+# or
+pnpm dev
+# or
+bun dev
+```
 
-## ⚙️ Overview: Backend-for-Frontend (BFF) Pattern
-The **BFF pattern** introduces a dedicated backend service for each user interface (e.g., web or mobile).
+Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-Each BFF acts as an intermediary between the frontend client and backend services, tailoring data and endpoints for its specific client.
+You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
 
-It also ensures that each frontend receives exactly what it needs, reducing over-fetching or under-fetching of data. This leads to more efficient utilization on the client, bandwidth usage, and faster load times due to data being aggregated, transformed, and/or cached.
+This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-### 💡 The Why Behind I Recommend the BFF Design for Production:
-Ideally, I'd recommended the architectural design for our online store platform, using the **Backend-for-Frontend (BFF)** pattern. The goal is to provide optimized, decoupled backends for each client experience — ensuring performance, flexibility for scaling, and maintainability.
+## Learn More
 
-### 🖥️ Web BFF — Next.js
-The **Web BFF** powers the online store’s **web experience**. It’s built with **Next.js**, combining server-side rendering (SSR), static generation, and API routes for interacting with back-end interactions.
+To learn more about Next.js, take a look at the following resources:
 
-### 📱 Mobile BFF
-The **Mobile BFF** serves the mobile application (iOS/Android), providing lightweight, optimized endpoints tailored for mobile data consumption. This also would ensure data returned isn't overwhelming the mobile devices; in terms of 'screen-real-estate' and battery.
+- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
+- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
 
----
+You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
 
+## Deploy on Vercel
 
-### TLDR
-| Pattern | Purpose | Status |
-| ----- | ----- | ----- |
-| **3-Tier Architecture** | Simplicity, maintainability for MVP phase. | ✅ Current |
-| **Backend-for-Frontend (BFF)** | The BFF ensures every frontend gets _exactly_ what it needs; efficiently. | 💭 _Desired_ |
+The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
-
+Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
