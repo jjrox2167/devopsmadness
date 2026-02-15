@@ -84,7 +84,7 @@ export default function SignUp() {
         // Any other server validation / unexpected error
         setFormError(
           error.message ??
-            "Oops! An unknown error has occured. Please try again."
+            "An unknown error has occured. Please try again."
         );
 
         return;
@@ -108,7 +108,7 @@ export default function SignUp() {
         setErrors(fieldErrors);
       } else {
         console.log(err);
-        setFormError("An unexpected error occurred");
+        setFormError("An unexpected error occurred.");
       }
     } finally {
       setIsLoading(false);
