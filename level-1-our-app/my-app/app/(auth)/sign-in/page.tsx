@@ -6,21 +6,13 @@ import { redirect } from "next/navigation";
 
 
 export default async function SignInPage() {
-    try {
-    const headersList = await headers();
-    const session = await auth.api.getSession({
-      headers: headersList,
-    });
-    console.log("session :", session);
-    if (session) {
-      redirect("/dashboard");
-    }
-  } catch (error: unknown) {
-    if (error instanceof Error && error.message !== "NEXT_REDIRECT")
-      console.error("Auth error:", error);
-    redirect("/sign-in");
-  }
-return (
+  const session = await auth.api.getSession({
+    headers: await headers(),
+  });
+
+  if (session) redirect("/dashboard");
+
+  return (
   <main >
         <SignIn />
    
