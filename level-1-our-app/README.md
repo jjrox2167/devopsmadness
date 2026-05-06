@@ -40,6 +40,7 @@ Build an MVP full-stack application from scratch.
 - **Database**: PostgreSQL (via PrismaAdapter to hosted NeonDB instance)
 - **Auth**: BetterAuth
 - **Language**: TypeScript, TailwindCSS, SQL
+- **Services**: Re-Send for transactional email notifications
 
 ---
 
