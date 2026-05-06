@@ -35,9 +35,9 @@ Build an MVP full-stack application from scratch.
 
 ## 🛠️ Tech Stack
 
-- **Frontend**: Next.js 
+- **Frontend**: Next.js (with Tailwind.css and Typscript)
 - **Backend**: Next.js API routes
-- **Database**: SQLite (via Prisma)
+- **Database**: PostgreSQL (via PrismaAdapter to hosted NeonDB instance)
 - **Auth**: BetterAuth
 - **Language**: TypeScript, TailwindCSS, SQL
 
