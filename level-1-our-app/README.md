@@ -2,8 +2,10 @@
 
 Welcome to **Level 1** of DevOps Madness: a simple full-stack authentication app built with [Next.js](https://nextjs.org/) (App Router), API routes, and Prisma + SQLite.
 
+<img width="951" height="759" alt="image" src="https://github.com/user-attachments/assets/ff0279be-c872-499a-9dad-600db665ed71" />
 
-This level focuses on setting up a complete minimal storefront app — with a frontend, backend, and database — that will serve as the foundation for future DevOps workflows (CI/CD, Docker, cloud deployment, etc.).
+
+### This level focuses on setting up a complete minimal storefront app — with a frontend, backend, and database — that will serve as the foundation for future DevOps workflows (CI/CD, Docker, cloud deployment, etc.).
 
 ---
 ## 📚 Project Goals
