@@ -6,7 +6,7 @@ By showcasing my hands-on experience with a wide range of DevOps tools, practice
 
  📁 Repository Structure
 
-Each folder within this repository represents a standalone project/example. These projects cover different areas of the DevOps lifecycle — from CI/CD pipelines to container orchestration, infrastructure as code, monitoring, and more.
+Each folder within this repository represents a standalone project/example. These projects cover different areas of the DevOps lifecycle — from developing a full-stack webapp, to CI/CD pipelines, container orchestration, infrastructure as code, monitoring, and more.
 
 > 🔍 Each project folder contains its own README with a detailed explanation of the project, tools used, architecture (if applicable), and how to run or replicate it.
 
@@ -16,9 +16,10 @@ Each folder within this repository represents a standalone project/example. Thes
 
 Some of the technologies and tools you’ll find across the projects:
 
+- **Development-Based Technologies**: Frontend framework: Next.js, Backend runtime: Node.js (Typescript), Authentication layer: BetterAuth, Database: PostgreSQL (With Prisma).
 - **CI/CD**: GitHub Actions, GitLab CI, Jenkins
 - **Containers & Orchestration**: Docker/Docker-Compose & Kubernetes
-- **Infrastructure as Code (IaC)**: Terraform & Ansible
+- **Infrastructure as Code (IaC)**: Terraform
 - **Cloud Providers**: Azure  
 - **Monitoring & Logging**: Azure Monitor/App-Insights, Alloy, Loki, Prometheus, and Grafana 
 - **Scripting**: Bash, Python
