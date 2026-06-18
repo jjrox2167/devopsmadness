@@ -42,11 +42,11 @@ export const BasicInfoFormSchema = z.object({
 export const SignInSchema = z.object({
   email: z.string().email("Please Enter A Valid Email Address"),
   password: z.string().min(8, { message: "Incoorrect Email or Password"})
-  .max(32, { message: "Incoorrect email or password" })
-  .regex(/[A-Z]/, { message: "Incoorrect Email or Password" })
-  .regex(/[a-z]/, { message: "Incoorrect Email or Password" })
-  .regex(/[0-9]/, { message: "Incoorrect Email or Password" })
-  .regex(/[^A-Za-z0-9]/, { message: "Incoorrect Email or Password" }),
+  .max(32, { message: "Incorrect Email or Password" })
+  .regex(/[A-Z]/, { message: "Incorrect Email or Password" })
+  .regex(/[a-z]/, { message: "Incorrect Email or Password" })
+  .regex(/[0-9]/, { message: "Incorrect Email or Password" })
+  .regex(/[^A-Za-z0-9]/, { message: "Incorrect Email or Password" }),
 });
 
 export const ForgotPasswordSchema = z.object({

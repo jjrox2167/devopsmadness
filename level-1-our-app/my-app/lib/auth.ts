@@ -1,11 +1,14 @@
 import { betterAuth } from "better-auth";
 import { prismaAdapter } from "better-auth/adapters/prisma";
-import { PrismaClient } from "@/lib/generated/prisma/client"
 import prisma from "./prisma";
 
 
 export const auth = betterAuth({
-  database: prismaAdapter(prisma, { provider: "postgresql" }),  // ← prisma instance first, then options
+  database: prismaAdapter(prisma, { 
+    provider: "postgresql" 
+  }),
+
+  baseURL: process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000",
   emailAndPassword: {
     enabled: true,
     autoSignIn: false,

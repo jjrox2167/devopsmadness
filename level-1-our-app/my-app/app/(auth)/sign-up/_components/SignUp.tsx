@@ -55,8 +55,7 @@ export default function SignUp() {
     password: "",
     confirmPassword: "",
   });
-
-  async function handleSubmit(e: React.FormEvent) {
+const handleSubmit= async (e: React.SubmitEvent<HTMLFormElement>) => {
     // handles form submission and starts processing changes on UI
     e.preventDefault();
     setErrors({});
@@ -89,7 +88,7 @@ export default function SignUp() {
 
         return;
       }
-      // Success → redirect
+      // Success => redirect
       setSuccessMessage("Account Created Successfully! Please wait ... ");
       await new Promise((resolve) => setTimeout(resolve, 2200));
 

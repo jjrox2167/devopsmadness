@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import {
   InputGroup,
   InputGroupAddon,
+  InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
 import { AtSignIcon, ChevronLeftIcon, EyeIcon, EyeOffIcon, LockIcon } from "lucide-react";
@@ -16,6 +17,7 @@ import { SignInSchema } from "@/lib/schema";
 import { authClient, signIn } from "@/lib/auth-client";
 import { useRouter } from "next/navigation";
 import { on } from "events";
+import { Input } from "@/components/ui/input";
 
 
 
@@ -49,52 +51,46 @@ export function SignIn() {
 
   // Handle form submission; sends the data 'e' to the server and starts processing changes on UI
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    setErrors({});
-    setSuccessMessage(null);
-    setFormError(null);
-    setIsLoading(true);
+  e.preventDefault();
+  
+  setErrors({});
+  setSuccessMessage(null);
+  setFormError(null);
+  setIsLoading(true);
 
-    try {
-      // client-side Zod validation
-      const validatedData = SignInSchema.parse(data);
+  try {
+    const validatedData = SignInSchema.parse(data);
 
-      // Send only validated data to the server; this stops overloading server with spammed requests and also prevents unnecessary server-side validation errors
-      const { error } = await authClient.signIn.email({ 
-        email: validatedData.email, 
-        password: validatedData.password,
-        callbackURL: "/dashboard" // redirect after successful sign-in; this is optional and can be handled on the client side as well, but including it here ensures that users are redirected even if they have JavaScript disabled or if there are client-side issues
-      });
+    const { error } = await authClient.signIn.email({
+      email: validatedData.email,
+      password: validatedData.password,
+      callbackURL: "/dashboard",
+    });
 
-      // Generic error handling for invalid credentials; this is separate from field-specific validation errors and is meant to catch authentication failures
-      if (error) {
-        setFormError("Invalid Email or Password"); 
-        return;
-      }
-
-      setSuccessMessage("Sign in successful! Redirecting...");
-      router.push("/dashboard");
-    } catch (err) {
-      if (err instanceof z.ZodError) {
-        // Client-side validation failed; shows field errors
-        const fieldErrors: Partial<Record<keyof FormData, string>> = {};
-        err.issues.forEach((issue) => {
-          const key = issue.path[0] as keyof FormData;
-          if (key) {
-            fieldErrors[key] = issue.message;
-          }
-        });
-        setErrors(fieldErrors);
-       
-      } else {
-        setFormError("An unexpected error occurred. Please try again.");
-      }
-    } finally {
-      setIsLoading(false);
-      router.push("/dashboard");
-
+    if (error) {
+      setFormError("Incorrect Email or Password");
+      return; // ← Important: stop here on error
     }
+
+    setSuccessMessage("Sign in successful! Redirecting...");
+    // Let Better Auth handle the redirect via callbackURL
+    // Or you can do router.push("/dashboard") here if you prefer
+  } catch (err) {
+    if (err instanceof z.ZodError) {
+      const fieldErrors: Partial<Record<keyof FormData, string>> = {};
+      err.issues.forEach((issue) => {
+        const key = issue.path[0] as keyof FormData;
+        if (key) fieldErrors[key] = issue.message;
+      });
+      setErrors(fieldErrors);
+    } else {
+      setFormError("An unexpected error occurred. Please try again.");
+    }
+  } finally {
+    setIsLoading(false);
+    // ← Removed the unconditional router.push from here
   }
+}
 
   return (
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2">
@@ -246,51 +242,48 @@ export function SignIn() {
             </div>
 
             <div className="space-y-2">
-              <div className="flex items-center justify-between text-sm">
-                <label htmlFor="password" className="text-muted-foreground">
-                  Password
-                </label>
-                <Link
-                  href="/forgot-password"
-                  className="text-primary hover:underline"
-                >
-                  Forgot password?
-                </Link>
-              </div>
+  <div className="space-y-2">
+  <div className="flex items-center justify-between text-sm">
+    <label htmlFor="password" className="text-muted-foreground">
+      Password
+    </label>
+    <Link href="/forgot-password" className="text-primary hover:underline">
+      Forgot password?
+    </Link>
+  </div>
 
-              <InputGroup>
-                <InputGroupInput
-                  placeholder="Please enter your password"
-                  type="password"
-                  name="password"
-                  id="password"
-                  value={data.password}
-                  onChange={handleChange}
-                  
-                />
+  <div className="relative">
+    <Input
+      placeholder="Please enter your password"
+      type={showPassword ? "text" : "password"}
+      name="password"
+      id="password"
+      value={data.password}
+      onChange={handleChange}
+      autoComplete="current-password"
+      className="pr-10" // space for the eye icon
+    />
 
-                <InputGroupAddon>
-                  <LockIcon className="h-4 w-4" />
-                </InputGroupAddon>
-                <InputGroupAddon align="inline-end">
-      <button
-        type="button"  // important: prevent form submit on click
-        onClick={() => setShowPassword((prev) => !prev)}
-        className="focus:outline-none"
-        aria-label={showPassword ? "Hide password" : "Show password"}
-      >
-        {showPassword ? (
-          <EyeIcon className="h-4 w-4 text-muted-foreground" />  // eye = visible
-        ) : (
-          <EyeOffIcon className="h-4 w-4 text-muted-foreground" />  // eye-off = hidden
-        )}
-      </button>
-    </InputGroupAddon>
-              </InputGroup>
-              {errors.password && (
-                <p className="text-red-500 text-xs">{errors.password}</p>
-              )}
-            </div>
+    {/* Eye toggle button */}
+    <button
+      type="button"
+      onClick={() => setShowPassword((prev) => !prev)}
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none z-10"
+      aria-label={showPassword ? "Hide password" : "Show password"}
+    >
+      {showPassword ? (
+        <EyeIcon className="h-4 w-4" />
+      ) : (
+        <EyeOffIcon className="h-4 w-4" />
+      )}
+    </button>
+  </div>
+
+  {errors.password && (
+    <p className="text-red-500 text-xs">{errors.password}</p>
+  )}
+</div>
+</div>
 
             <Button
               type="submit"
