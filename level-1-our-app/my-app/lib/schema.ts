@@ -2,13 +2,12 @@ import z from "zod";
 
 export const PasswordSchema = z
   .string()
-  .min(8, { message: "Password must be at least 8 characters" })
-  .max(32, { message: "Password must not exceed 32 characters" })
-  .regex(/[A-Z]/, { message: "Password must contain at least one uppercase letter" })
-  .regex(/[a-z]/, { message: "Password must contain at least one lowercase letter" })
-  .regex(/[0-9]/, { message: "Password must contain at least one number" })
-  .regex(/[^A-Za-z0-9]/, { message: "Password must contain at least one special character" });
-
+  .min(8, "Must be at least 8 characters")
+  .max(32, "Must not exceed 32 characters")
+  .regex(/[A-Z]/, "Must contain at least one uppercase letter")
+  .regex(/[a-z]/, "Must contain at least one lowercase letter")
+  .regex(/[0-9]/, "Must contain at least one number")
+  .regex(/[^A-Za-z0-9]/, "Must contain at least one special character");
   export const SignUpSchema = z.object({
   firstName: z.string().min(1, "First name is required").max(20, "First name too long"),
   lastName: z.string().min(1, "Last name is required").max(20, "Last name too long"),
@@ -40,15 +39,15 @@ export const BasicInfoFormSchema = z.object({
   
 });
 export const SignInSchema = z.object({
-  email: z.string().email("Please Enter A Valid Email Address"),
-  password: z.string().min(8, { message: "Incoorrect Email or Password"})
-  .max(32, { message: "Incorrect Email or Password" })
-  .regex(/[A-Z]/, { message: "Incorrect Email or Password" })
-  .regex(/[a-z]/, { message: "Incorrect Email or Password" })
-  .regex(/[0-9]/, { message: "Incorrect Email or Password" })
-  .regex(/[^A-Za-z0-9]/, { message: "Incorrect Email or Password" }),
-});
+  email: z
+    .string()
+    .min(1, "Email is required")
+    .email("Please enter a valid email address"),
 
+  password: z
+    .string()
+    .min(1, "Please enter your password"),
+});
 export const ForgotPasswordSchema = z.object({
   email: z.string().email("Please enter a valid email address"),
 });

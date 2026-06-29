@@ -33,7 +33,7 @@ export default function ForgotPassword() {
             <ResetLinkSent onBack={() => {
                           setSubmitted(false)
                           setEmail('')
-                      } } email={''}  />
+                      } } email={email}  />
           ) : (
             // Form State
             <>

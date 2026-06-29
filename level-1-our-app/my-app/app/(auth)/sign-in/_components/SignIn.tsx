@@ -220,26 +220,26 @@ export function SignIn() {
             )}
 
             <div className="space-y-2">
-              <InputGroup>
-                <InputGroupInput
-                  placeholder="name@email.com"
-                  id="email"
-                  type="email"
-                  name="email"
-                  value={data.email}
-                  onChange={handleChange}
-                  autoComplete="email"
-                />
-                <InputGroupAddon>
-                  <AtSignIcon className="h-4 w-4" />
-                </InputGroupAddon>
-              </InputGroup>
-              {errors.email && (
-                <p className="text-red-500 text-xs">{errors.email}</p>
-              )}
-                
-              
-            </div>
+  <InputGroup>
+    <InputGroupInput
+      placeholder="name@email.com"
+      id="email"
+      type="email"
+      name="email"
+      value={data.email}
+      onChange={handleChange}
+      autoComplete="email"
+    />
+    <InputGroupAddon>
+      <AtSignIcon className="h-4 w-4" />
+    </InputGroupAddon>
+  </InputGroup>
+
+  {/* ADD THIS */}
+  {errors.email && (
+    <p className="text-red-500 text-xs mt-1">{errors.email}</p>
+  )}
+</div>
 
             <div className="space-y-2">
   <div className="space-y-2">

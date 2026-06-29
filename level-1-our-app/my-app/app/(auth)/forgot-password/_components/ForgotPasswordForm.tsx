@@ -1,6 +1,10 @@
+'use client'
+
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
+import { authClient } from '@/lib/auth-client'
 import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface ForgotPasswordFormProps {
   onSuccess: (email: string) => void
@@ -8,27 +12,37 @@ interface ForgotPasswordFormProps {
 
 export function ForgotPasswordForm({ onSuccess }: ForgotPasswordFormProps) {
   const [email, setEmail] = useState('')
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState('')
+  const [isPending, setIsPending] = useState(false)
+  const [error, setError] = useState<string | null>(null)
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
+  async function handleSubmit(evt: React.FormEvent<HTMLFormElement>) {
+    evt.preventDefault()
+
     if (!email) return
 
-    setLoading(true)
-    setError('')
+    setIsPending(true)
+    setError(null)
 
-    try {
-      // Fake delay for testing (replace with real Server Action later)
-      await new Promise((resolve) => setTimeout(resolve, 1000))
-      console.log('Reset link would be sent to:', email)
+    const { error: resetError } = await authClient.requestPasswordReset({
+      email,
+      // redirectTo: `${window.location.origin}/reset-password`,
+      redirectTo: "/reset-password"
+    })
 
-      onSuccess(email) // Tell parent component we're done
-    } catch {
-      setError('Something went wrong. Please try again.')
-    } finally {
-      setLoading(false)
+    {/* if theres an error */}
+
+    if (resetError) {
+      const message = resetError.message || 'Failed to send reset link. Please try again.'
+      setError(message)
+      toast.error(message)
+
+     {/* Else if successful do this */} 
+    } else {
+      onSuccess(email)
+      toast.success('Password reset link sent!')
     }
+
+    setIsPending(false)
   }
 
   return (
@@ -43,17 +57,17 @@ export function ForgotPasswordForm({ onSuccess }: ForgotPasswordFormProps) {
         <Input
           id="forgot-email"
           type="email"
-          placeholder="name@emailaddress.com"
+          placeholder="name@email.com"
           autoComplete="email"
           value={email}
           onChange={(e) => setEmail(e.target.value)}
-          disabled={loading}
+          disabled={isPending}
           required
         />
       </div>
 
-      <Button type="submit" disabled={loading || !email}>
-        {loading ? 'Sending...' : 'Send reset link'}
+      <Button type="submit" disabled={isPending || !email}>
+        {isPending ? 'Sending...' : 'Send reset link'}
       </Button>
 
       {error && <p className="text-sm text-red-500">{error}</p>}
