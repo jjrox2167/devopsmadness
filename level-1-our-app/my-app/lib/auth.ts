@@ -9,6 +9,46 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 
 export const auth = betterAuth({
+  onAPIError: {
+		throw: true,
+		onError: (error, ctx) => {
+			// Custom error handling
+			console.error("Auth error:", error);
+		},
+		errorURL: "/auth/error",
+		customizeDefaultErrorPage: {
+			colors: {
+				background: "#ffffff",
+				foreground: "#000000",
+				primary: "#0070f3",
+				primaryForeground: "#ffffff",
+				mutedForeground: "#666666",
+				border: "#e0e0e0",
+				destructive: "#ef4444",
+				titleBorder: "#0070f3",
+				titleColor: "#000000",
+				gridColor: "#f0f0f0",
+				cardBackground: "#ffffff",
+				cornerBorder: "#0070f3"
+			},
+			size: {
+				radiusSm: "0.25rem",
+				radiusMd: "0.5rem",
+				radiusLg: "1rem",
+				textSm: "0.875rem",
+				text2xl: "1.5rem",
+				text4xl: "2.25rem",
+				text6xl: "3.75rem"
+			},
+			font: {
+				defaultFamily: "system-ui, sans-serif",
+				monoFamily: "monospace"
+			},
+			disableTitleBorder: false,
+			disableCornerDecorations: false,
+			disableBackgroundGrid: false
+		}
+	},
   database: prismaAdapter(prisma, { 
     provider: "postgresql" 
   }),
