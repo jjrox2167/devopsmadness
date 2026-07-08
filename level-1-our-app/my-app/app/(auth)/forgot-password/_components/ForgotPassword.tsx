@@ -27,7 +27,7 @@ export default function ForgotPassword() {
         </div>
 
         {/* Card */}
-        <div className="bg-background border-border/60 rounded-2xl border p-6 shadow-sm">
+        <div className="bg-white border-border/60 rounded-2xl border p-6 shadow-sm">
           {submitted ? (
             // Success State (reuses the same card)
             <ResetLinkSent onBack={() => {

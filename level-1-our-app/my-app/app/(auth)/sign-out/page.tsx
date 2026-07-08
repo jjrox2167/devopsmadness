@@ -48,7 +48,7 @@ export default function SignOutPage() {
           </Button>
 
           <Button asChild variant="outline" className="w-full">
-            <Link href="/dashboard">Cancel</Link>
+            <Link href="admin/dashboard">Cancel</Link>
           </Button>
         </div>
 

@@ -36,7 +36,7 @@ export default function NotFound() {
           </Button>
 
           <Button asChild variant="outline" size="lg" className="text-base">
-            <Link href="/dashboard">
+            <Link href="/admin/dashboard">
               <ArrowLeft className="mr-2 h-5 w-5" />
               Go to Dashboard
             </Link>

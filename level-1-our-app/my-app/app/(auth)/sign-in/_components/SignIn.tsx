@@ -107,7 +107,7 @@ export function SignIn() {
         </div>
       </div>
 
-      <div className="relative flex min-h-screen flex-col justify-center p-4">
+      <div className="bg-white relative flex min-h-screen flex-col justify-center p-4">
         <div
           aria-hidden
           className="-z-10 absolute inset-0 isolate opacity-60 contain-strict"
@@ -139,7 +139,7 @@ export function SignIn() {
           <div className="grid gap-2">
             <Button
 							variant="outline"
-							className="w-full gap-2"
+							className="w-full gap-2 bg-white cursor-pointer"
 							disabled={isLoading}
               onClick={async () => {
 								await signIn.social({
@@ -164,7 +164,7 @@ export function SignIn() {
 			</svg>
 							Sign in with Google
 						</Button>
-            <Button variant="outline">
+            <Button variant="outline" className="bg-white cursor-pointer">
               
             <svg
 				xmlns="http://www.w3.org/2000/svg"
@@ -179,7 +179,7 @@ export function SignIn() {
 			</svg>
 							Sign in with Apple
 						</Button>
-            <Button variant={"outline"}>
+            <Button variant={"outline"} className="bg-white cursor-pointer" >
             <svg
 				xmlns="http://www.w3.org/2000/svg"
 				width="1em"
@@ -268,7 +268,7 @@ export function SignIn() {
     <button
       type="button"
       onClick={() => setShowPassword((prev) => !prev)}
-      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none z-10"
+      className="absolute right-3 top-1/2 -translate-y-1/2 text-muted-foreground hover:text-foreground focus:outline-none z-10 cursor-pointer"
       aria-label={showPassword ? "Hide password" : "Show password"}
     >
       {showPassword ? (
@@ -287,7 +287,7 @@ export function SignIn() {
 
             <Button
               type="submit"
-              className="w-full"
+              className="w-full cursor-pointer"
               disabled={isLoading}
             >
               {/* Show loading state on button when form is submitting; this provides feedback to the user that their action is being processed and prevents multiple submissions */}
