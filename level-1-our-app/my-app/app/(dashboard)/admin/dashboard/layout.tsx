@@ -27,7 +27,7 @@ export default function DashboardLayout({ children }: DashboardLayoutProps) {
     
     <AppNavbar />
     
-    <PageHeader/>
+   <PageHeader/>
     
     <main>{children}</main>
   </SidebarInset>
