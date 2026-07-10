@@ -20,7 +20,6 @@ import {
 
 import WrenchIcon from '@iconify-react/mdi/wrench';
 import { Button } from "@/components/ui/button";
-import { QuickCreateDialog } from "./QuickCreateDialog";
 
 export function NavMain({
   items,
@@ -42,10 +41,18 @@ export function NavMain({
       
       <SidebarMenu>
         <SidebarMenuItem className="flex items-center gap-2">
-              <QuickCreateDialog></QuickCreateDialog>
+              <SidebarMenuButton
+                tooltip="Quick Create"
+                className="min-w-8 bg-sidebar-primary hover:bg-sidebar-accent text-primary-foreground transition-colors duration-100 ease-linear hover:text-primary-foreground active:text-primary-foreground cursor-pointer"
+              
+           
+              >
+                <PlusCircleIcon />
+                <span className="">Quick Create</span>
+              </SidebarMenuButton>
               <Button
                 size="icon"
-                className="h-8 w-8 shrink-0 group-data-[collapsible=icon]:opacity-0"
+                className=" bg-sidebar-primary h-8 w-8 shrink-0 group-data-[collapsible=icon]:opacity-0"
                 variant="default"
               >
                 <MailIcon />
