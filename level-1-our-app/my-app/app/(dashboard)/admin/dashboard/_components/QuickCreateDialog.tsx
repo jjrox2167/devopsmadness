@@ -16,12 +16,14 @@ import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle }
 import { Label } from "@/components/ui/label"
 import { InboxIcon, Plus, PlusIcon } from "lucide-react"
 
+
+
 export function QuickCreateDialog() {
   return (
     <Dialog>
       <form>
         <DialogTrigger asChild>
-            <Button className=" bg-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/95 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground cursor-pointer w-45 h-8">Quick Actions <PlusIcon /></Button> 
+            <Button className=" bg-sidebar-primary text-primary-foreground duration-200 ease-linear hover:bg-primary/95 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground cursor-pointer w-45 h-8">Quick Actions <PlusIcon /></Button> 
             </DialogTrigger>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>

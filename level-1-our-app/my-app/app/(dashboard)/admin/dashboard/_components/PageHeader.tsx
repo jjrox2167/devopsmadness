@@ -3,10 +3,23 @@
 
 import React from 'react'
 import { BreadcrumbBasic } from './BreadcrumbBasic';
+import { usePathname } from 'next/navigation';
+import { pageConfig } from '@/lib/PageConfig';
+
 
 export default function PageHeader() {
-  
-  
+  const pathname = usePathname();
+
+  const pageTitle = 
+    pathname
+      .split('/')
+      .filter(Boolean)
+      .pop()
+      ?.replace(/-/g, ' ')
+      .replace(/\b\w/g, (c) => c.toUpperCase()) || 'Dashboard';
+
+      const page = pageConfig[pathname as keyof typeof pageConfig];
+
   return (
     <header>
       <div className="bg-background hidden shrink-0 border-b px-4 py-4 sm:px-6 md:block">
@@ -22,8 +35,8 @@ export default function PageHeader() {
         
       </div>
       <div className="space-y-0.5 px-4 py-4 sm:px-6 md:block">
-        <h1 className="text-xl font-bold tracking-tight md:text-2xl">Settings</h1>
-        <p className="text-muted-foreground">Update account preferences and manage integrations.</p>
+        <h1 className="text-3xl font-bold tracking-tight md:text-3xl">{pageTitle}</h1>
+        <p className="text-muted-foreground">{page?.description}</p>
         </div>
     </header>
   )
