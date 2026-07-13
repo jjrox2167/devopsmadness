@@ -9,15 +9,6 @@ import { pageConfig } from '@/lib/PageConfig';
 
 export default function PageHeader() {
   const pathname = usePathname();
-
-  const pageTitle = 
-    pathname
-      .split('/')
-      .filter(Boolean)
-      .pop()
-      ?.replace(/-/g, ' ')
-      .replace(/\b\w/g, (c) => c.toUpperCase()) || 'Dashboard';
-
       const page = pageConfig[pathname as keyof typeof pageConfig];
 
   return (
@@ -35,7 +26,7 @@ export default function PageHeader() {
         
       </div>
       <div className="space-y-0.5 px-4 py-4 sm:px-6 md:block">
-        <h1 className="text-3xl font-bold tracking-tight md:text-3xl">{pageTitle}</h1>
+        <h1 className="text-3xl font-bold tracking-tight md:text-3xl">{[page?.title]}</h1>
         <p className="text-muted-foreground">{page?.description}</p>
         </div>
     </header>

@@ -14,17 +14,28 @@ import { Field, FieldGroup } from "@/components/ui/field"
 import { Input } from "@/components/ui/input"
 import { Item, ItemActions, ItemContent, ItemDescription, ItemMedia, ItemTitle } from "@/components/ui/item"
 import { Label } from "@/components/ui/label"
-import { InboxIcon, Plus, PlusIcon } from "lucide-react"
+import { SidebarMenuButton, SidebarMenuItem } from "@/components/ui/sidebar"
+import { InboxIcon, Plus, PlusCircleIcon, PlusIcon } from "lucide-react"
 
 
 
 export function QuickCreateDialog() {
   return (
     <Dialog>
-      <form>
-        <DialogTrigger asChild>
-            <Button className="flex bg-sidebar-primary text-primary-foreground duration-200 ease-linear hover:bg-sidebar-accent/95 hover:text-primary-foreground active:bg-primary/90 active:text-primary-foreground cursor-pointer w-45 h-8">Quick Actions <PlusIcon /></Button> 
-            </DialogTrigger>
+
+<DialogTrigger asChild>
+  
+  <SidebarMenuButton
+                tooltip="Quick Create"
+                className="min-w-8 bg-sidebar-primary hover:bg-sidebar-accent text-primary-foreground transition-colors duration-100 ease-linear hover:text-primary-foreground active:text-primary-foreground cursor-pointer"
+              
+           
+              >
+                <PlusCircleIcon />
+                <span className="">Quick Create</span>
+              </SidebarMenuButton>
+              
+              </DialogTrigger>
         <DialogContent className="sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>Select an Action</DialogTitle>
@@ -104,7 +115,6 @@ export function QuickCreateDialog() {
             </DialogClose>
           </DialogFooter>
         </DialogContent>
-      </form>
     </Dialog>
   )
 }

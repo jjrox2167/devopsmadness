@@ -1,5 +1,6 @@
 // lib/page-config.ts
 
+{/* USED FOR THE PAGE TITLE/HEADER */}
 export const pageConfig = {
   "/admin/dashboard": {
     title: "Dashboard",
@@ -11,6 +12,18 @@ export const pageConfig = {
   },
   "/admin/settings/account-overview": {
     title: "Account Overview",
+    description: "Update account preferences and integrations.",
+  },
+  "/admin/settings/billing": {
+    title: "Billing & Subscription",
+    description: "Update account preferences and integrations.",
+  },
+   "/admin/settings/security": {
+    title: "Security & Activity",
+    description: "Update account preferences and integrations.",
+  },
+  "/admin/settings/connected-accounts": {
+    title: "Connected Accounts",
     description: "Update account preferences and integrations.",
   },
   "/dashboard/products": {

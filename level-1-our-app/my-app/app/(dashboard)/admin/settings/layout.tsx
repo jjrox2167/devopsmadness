@@ -1,5 +1,6 @@
 import { Metadata } from "next";
-import SettingsSidebar from "./_components/SettingsSidebar";
+import SettingsSidebar from "./account-overview/_components/SettingsSidebar";
+import { Separator } from "@/components/ui/separator";
 
 export const metadata: Metadata = {
   title: "Settings | Account Overview",
@@ -19,12 +20,13 @@ export default function AccountOverviewLayout({
       <aside className="hidden shrink-0 md:block lg:w-64">
         <div className="sticky top-6">
           <SettingsSidebar />
+        
         </div>
       </aside>
 
       {/* Content */}
       <main className="min-w-0 flex-1">
-        <div className="w-full max-w-4xl">{children}</div>
+        <div className="w-full">{children}</div>
       </main>
     </div>
   );
