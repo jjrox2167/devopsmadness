@@ -7,7 +7,7 @@ import {
   InputGroupButton,
   InputGroupInput,
 } from "@/components/ui/input-group";
-import { AtSignIcon, ChevronLeftIcon, EyeIcon, EyeOffIcon, LockIcon } from "lucide-react";
+import { AtSignIcon, ChevronLeftIcon, EyeIcon, EyeOffIcon, LockIcon, Mail } from "lucide-react";
 import type React from "react";
 import { FloatingPaths } from "./FloatingPaths";
 import Link from "next/link";
@@ -64,7 +64,7 @@ export function SignIn() {
     const { error } = await authClient.signIn.email({
       email: validatedData.email,
       password: validatedData.password,
-      callbackURL: "/dashboard",
+      callbackURL: "/admin/dashboard",
     });
 
     if (error) {
@@ -94,7 +94,7 @@ export function SignIn() {
 
   return (
     <main className="relative md:h-screen md:overflow-hidden lg:grid lg:grid-cols-2">
-      <div className="relative hidden h-full flex-col border-r bg-secondary p-10 lg:flex dark:bg-secondary/20">
+      <div className="relative hidden h-full flex-col border-r p-10 lg:flex bg-primary-foreground">
         <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background" />
         <div className="z-10 mt-auto">
           <h1 className="text-4xl font-bold tracking-wide text-foreground">
@@ -107,7 +107,7 @@ export function SignIn() {
         </div>
       </div>
 
-      <div className="bg-white relative flex min-h-screen flex-col justify-center p-4">
+      <div className="bg-primary-background relative flex min-h-screen flex-col justify-center p-4">
         <div
           aria-hidden
           className="-z-10 absolute inset-0 isolate opacity-60 contain-strict"
@@ -139,7 +139,7 @@ export function SignIn() {
           <div className="grid gap-2">
             <Button
 							variant="outline"
-							className="w-full gap-2 bg-white cursor-pointer"
+							className="w-full gap-2 cursor-pointer"
 							disabled={isLoading}
               onClick={async () => {
 								await signIn.social({
@@ -231,7 +231,7 @@ export function SignIn() {
       autoComplete="email"
     />
     <InputGroupAddon>
-      <AtSignIcon className="h-4 w-4" />
+      <Mail className="h-4 w-4" />
     </InputGroupAddon>
   </InputGroup>
 

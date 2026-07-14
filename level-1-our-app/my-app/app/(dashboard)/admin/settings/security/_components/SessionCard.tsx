@@ -72,7 +72,11 @@ export default function SessionCard({
           Your most recent login sessions and account activity.
         </p>
         <Separator className="my-4" />
+        <div className="space-y-1">
+          
+        </div>
       </div>
+      
       <Card className="flex flex-col">
         <CardHeader className="grid auto-rows-min items-start">
           <CardTitle>Recent Activity</CardTitle>
@@ -84,7 +88,7 @@ export default function SessionCard({
         <CardContent>
           <Table className="table-fixed">
             <TableBody>
-              {/* Header / Label Row */}
+              {/* Header */}
               <TableRow>
                 <TableCell className="w-2/5 font-medium">
                   Device Type:
@@ -97,9 +101,7 @@ export default function SessionCard({
               {/* Data Row */}
               <TableRow>
                 <TableCell className="flex items-center gap-3">
-                  <div className="flex size-10 items-center justify-center rounded-lg bg-accent">
-                    <DeviceIcon className="size-5" />
-                  </div>
+                  
                   <div>
                     <div className="font-medium">{deviceName}</div>
                     <div className="text-sm text-muted-foreground">

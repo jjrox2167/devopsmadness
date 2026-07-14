@@ -244,7 +244,7 @@ const handleSubmit= async (e: React.SubmitEvent<HTMLFormElement>) => {
                 </div>
               </div>
             </div>
-            <Button type="submit" disabled={isPending} className="w-full">
+            <Button type="submit" disabled={isPending} className="w-full cursor-pointer">
               {isLoading ? ( //when isLoading is true, show loading spinner and the "Creating Account.."
                 <>
                   <Loader2 className="mr-2 h-4 w-4 animate-spin" />
