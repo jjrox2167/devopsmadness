@@ -4,6 +4,7 @@ import prisma from "./prisma";
 import { Resend } from 'resend';
 import ResetPasswordEmail from "./email/ResetPasswordEmail";
 import UpdatedPasswordEmail from "./email/UpdatedPasswordEmail";
+import { twoFactor } from "better-auth/plugins/two-factor";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -131,4 +132,7 @@ export const auth = betterAuth({
       updateEmailWithoutVerification: true,
     },
   },
-});
+appName: "My App", 
+    plugins: [
+        twoFactor() 
+    ]});

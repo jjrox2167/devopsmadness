@@ -36,13 +36,6 @@ export function SessionsTable<TData, TValue>({
   return (
     <div className="space-y-6">
       <div className="space-y-2">
-        <div className="space-y-1">
-                <h3 className="text-xl font-bold">Recent Sessions and Account Activity</h3>
-                <p className="text-muted-foreground text-sm mt-1">
-                  Your most recent login sessions and account activity.
-                </p>
-                <Separator className="my-4" />
-              </div>
     <div className="overflow-hidden rounded-md border">
       <Table>
         <TableHeader className="bg-accent">
@@ -69,7 +62,7 @@ export function SessionsTable<TData, TValue>({
           ))}
         </TableHeader>
 
-        <TableBody>
+        <TableBody className="bg-card">
           {table.getRowModel().rows.length > 0 ? (
             table.getRowModel().rows.map((row) => (
               <TableRow
