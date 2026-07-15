@@ -6,6 +6,7 @@ import type { ColumnDef } from "@tanstack/react-table"
 import { revokeOtherSessions } from "better-auth/api"
 import { EllipsisIcon } from "lucide-react"
 import { toast } from "sonner"
+import { EndSessionDialog } from "./EndSessionDialog"
 
 export type Session = {
   id: string
@@ -100,16 +101,10 @@ export const columns: ColumnDef<Session>[] = [
 
     return (
       <div className="flex justify-end">
-        <Button
-          type="button"
-          variant="ghost"
-          size="icon"
-          aria-label="Revoke session"
-          onClick={revokeSession}
-        >
-          <EllipsisIcon className="size-4" />
-          <span className="sr-only">Revoke session</span>
-        </Button>
+        <EndSessionDialog
+  token={row.original.token}
+  isCurrentSession={row.original.token === currentSessionToken}
+/>
       </div>
     )
   },
