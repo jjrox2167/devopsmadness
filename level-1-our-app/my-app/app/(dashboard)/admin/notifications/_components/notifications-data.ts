@@ -1,6 +1,9 @@
 import type { AppNotification } from "./notifications-types";
 
-/** Demo notifications until a real notifications API exists. */
+/**
+ * @deprecated Demo only. The page loads from Prisma via
+ * `listNotificationsForUser` — do not use this as the page default.
+ */
 export const INITIAL_NOTIFICATIONS: AppNotification[] = [
   {
     id: "n1",

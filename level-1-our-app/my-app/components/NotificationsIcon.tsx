@@ -1,8 +1,8 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import Link from "next/link";
-import { BellIcon } from "lucide-react";
+import { BellIcon, Loader2Icon } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import {
@@ -11,17 +11,23 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 import { Separator } from "@/components/ui/separator";
-import { INITIAL_NOTIFICATIONS } from "@/app/(dashboard)/admin/notifications/_components/notifications-data";
 import type { AppNotification } from "@/app/(dashboard)/admin/notifications/_components/notifications-types";
 import { NotificationItem } from "@/app/(dashboard)/admin/notifications/_components/NotificationItem";
 import { unreadCount } from "@/app/(dashboard)/admin/notifications/_components/notifications-utils";
 import { NotificationsEmpty } from "@/app/(dashboard)/admin/notifications/_components/NotificationsEmpty";
+import {
+  dismissNotificationAction,
+  markNotificationReadAction,
+  markNotificationUnreadAction,
+} from "@/app/(dashboard)/admin/notifications/_components/notification-actions";
 
 const PREVIEW_LIMIT = 4;
 
 export default function NotificationsIcon() {
-  const [items, setItems] = useState<AppNotification[]>(INITIAL_NOTIFICATIONS);
+  const [items, setItems] = useState<AppNotification[]>([]);
   const [open, setOpen] = useState(false);
+  const [loading, setLoading] = useState(false);
+  const [loaded, setLoaded] = useState(false);
 
   const unread = unreadCount(items);
   const preview = useMemo(
@@ -35,24 +41,73 @@ export default function NotificationsIcon() {
     [items],
   );
 
-  function markRead(id: string) {
+  const load = useCallback(async () => {
+    setLoading(true);
+    try {
+      const res = await fetch("/api/notifications?limit=20", {
+        credentials: "include",
+      });
+      if (!res.ok) {
+        setItems([]);
+        return;
+      }
+      const data = (await res.json()) as { notifications: AppNotification[] };
+      setItems(data.notifications ?? []);
+      setLoaded(true);
+    } catch {
+      setItems([]);
+    } finally {
+      setLoading(false);
+    }
+  }, []);
+
+  // Unread badge on first mount
+  useEffect(() => {
+    void load();
+  }, [load]);
+
+  // Refresh when opening the popover
+  function handleOpenChange(next: boolean) {
+    setOpen(next);
+    if (next) void load();
+  }
+
+  async function markRead(id: string) {
+    const previous = items;
     setItems((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: true } : n)),
     );
+    try {
+      await markNotificationReadAction(id);
+    } catch {
+      setItems(previous);
+    }
   }
 
-  function markUnread(id: string) {
+  async function markUnread(id: string) {
+    const previous = items;
     setItems((prev) =>
       prev.map((n) => (n.id === id ? { ...n, read: false } : n)),
     );
+    try {
+      await markNotificationUnreadAction(id);
+    } catch {
+      setItems(previous);
+    }
   }
 
-  function dismiss(id: string) {
+  async function dismiss(id: string) {
+    const previous = items;
     setItems((prev) => prev.filter((n) => n.id !== id));
+    try {
+      await dismissNotificationAction(id);
+    } catch {
+      setItems(previous);
+    }
   }
 
   return (
-    <Popover open={open} onOpenChange={setOpen}>
+    <Popover open={open} onOpenChange={handleOpenChange}>
       <PopoverTrigger asChild>
         <Button
           variant="outline"
@@ -78,7 +133,11 @@ export default function NotificationsIcon() {
           <div>
             <p className="text-sm font-semibold">Notifications</p>
             <p className="text-muted-foreground text-xs">
-              {unread > 0 ? `${unread} unread` : "You’re all caught up"}
+              {loading && !loaded
+                ? "Loading…"
+                : unread > 0
+                  ? `${unread} unread`
+                  : "You’re all caught up"}
             </p>
           </div>
           <Button variant="ghost" size="sm" asChild>
@@ -90,16 +149,21 @@ export default function NotificationsIcon() {
         <Separator />
 
         <div className="max-h-96 space-y-2 overflow-y-auto p-3">
-          {preview.length === 0 ? (
+          {loading && !loaded ? (
+            <div className="text-muted-foreground flex items-center justify-center gap-2 py-8 text-sm">
+              <Loader2Icon className="size-4 animate-spin" />
+              Loading…
+            </div>
+          ) : preview.length === 0 ? (
             <NotificationsEmpty description="No recent alerts." />
           ) : (
             preview.map((notification) => (
               <NotificationItem
                 key={notification.id}
                 notification={notification}
-                onMarkRead={markRead}
-                onMarkUnread={markUnread}
-                onDismiss={dismiss}
+                onMarkRead={(id) => void markRead(id)}
+                onMarkUnread={(id) => void markUnread(id)}
+                onDismiss={(id) => void dismiss(id)}
                 compact
               />
             ))
