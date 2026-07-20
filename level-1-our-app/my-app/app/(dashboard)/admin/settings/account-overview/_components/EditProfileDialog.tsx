@@ -228,16 +228,7 @@ export function EditProfileDialog({ user, trigger }: EditProfileDialogProps) {
             />
           </div>
 
-          <div className="space-y-2">
-            <Label htmlFor="image-url">Profile image URL</Label>
-            <Input
-              id="image-url"
-              value={image}
-              onChange={(e) => setImage(e.target.value)}
-              placeholder="https://…"
-              autoComplete="off"
-            />
-          </div>
+          
         </div>
 
         <DialogFooter>

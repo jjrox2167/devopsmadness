@@ -1,15 +1,17 @@
 import { Separator } from "@/components/ui/separator";
 
 import type { AccountOverviewUser } from "./account-overview-types";
-import { AccountDetailsCard } from "./AccountDetailsCard";
 import { ProfileHeaderCard } from "./ProfileHeaderCard";
+import ProfileMainCard from "./ProfileMainCard";
 import { ProfileInformationCard } from "./ProfileInformationCard";
 
 export default function AccountOverview({
   user,
 }: {
-  user: AccountOverviewUser;
+  user: AccountOverviewUser
 }) {
+
+
   return (
     <div className="space-y-6">
       <div className="space-y-1">
@@ -22,8 +24,8 @@ export default function AccountOverview({
 
       <div className="flex w-full flex-col space-y-4">
         <ProfileHeaderCard user={user} />
-        <ProfileInformationCard user={user} />
-        <AccountDetailsCard user={user} />
+        <ProfileMainCard user={user} />
+
       </div>
     </div>
   );
