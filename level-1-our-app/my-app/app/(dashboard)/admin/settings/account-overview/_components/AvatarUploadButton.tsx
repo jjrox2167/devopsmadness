@@ -28,191 +28,149 @@ import { cn } from "@/lib/utils";
 import type { AccountOverviewUser } from "./account-overview-types";
 import { getInitials } from "./profile-utils";
 
-const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // 2MB — data URLs bloat quickly
-const ACCEPTED_TYPES = ["image/jpeg", "image/png", "image/webp", "image/gif"];
+const MAX_BYTES = 2 * 1024 * 1024;
+const ACCEPT = ["image/jpeg", "image/png", "image/webp", "image/gif"] as const;
 
-type AvatarUploadButtonProps = {
+type Props = {
   user: AccountOverviewUser;
-  /** Show status dot on the avatar. Default true. */
-  showStatusBadge?: boolean;
   className?: string;
 };
 
-/**
- * Optimistic image override:
- * - `undefined` → use server `user.image`
- * - `null` → removed (show fallback)
- * - `string` → local preview / newly uploaded data URL
- *
- * Important: do NOT use `preview ?? user.image` with `null`, because
- * `null ?? user.image` falls through to the old server image.
- */
-type OptimisticImage = string | null | undefined;
+/** `undefined` = server image · `null` = removed · `string` = local preview */
+type ImageOverride = string | null | undefined;
 
-export default function AvatarUploadButton({
-  user,
-  showStatusBadge = true,
-  className,
-}: AvatarUploadButtonProps) {
+export default function AvatarUploadButton({ user, className }: Props) {
   const router = useRouter();
-  const fileInputRef = useRef<HTMLInputElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
 
-  const [optimisticImage, setOptimisticImage] =
-    useState<OptimisticImage>(undefined);
-  const [isUploading, setIsUploading] = useState(false);
+  const [override, setOverride] = useState<ImageOverride>(undefined);
+  const [busy, setBusy] = useState(false);
 
   const initials = getInitials(user.name);
-  const displayImage =
-    optimisticImage !== undefined ? optimisticImage : (user.image ?? null);
-  const hasPhoto = Boolean(displayImage);
+  const src = override !== undefined ? override : (user.image ?? null);
+  const hasPhoto = Boolean(src);
 
-  function openFilePicker() {
-    fileInputRef.current?.click();
+  function pickFile() {
+    inputRef.current?.click();
   }
 
-  async function persistImage(image: string | null) {
-    setIsUploading(true);
+  async function save(image: string | null) {
+    setBusy(true);
     try {
       const { error } = await authClient.updateUser({ image });
-
       if (error) {
-        toast.error(error.message || "Unable to update profile photo");
-        // Revert to whatever the server still has
-        setOptimisticImage(undefined);
-        return false;
+        toast.error(error.message || "Could not update photo");
+        setOverride(undefined);
+        return;
       }
-
-      toast.success(
-        image ? "Profile photo updated" : "Profile photo removed",
-      );
-      // Keep optimistic value until RSC refresh lands; then parent user.image wins
-      // once we clear override after refresh below.
+      toast.success(image ? "Photo updated" : "Photo removed");
+      setOverride(undefined);
       router.refresh();
-      setOptimisticImage(undefined);
-      return true;
     } catch {
-      toast.error("Unable to update profile photo");
-      setOptimisticImage(undefined);
-      return false;
+      toast.error("Could not update photo");
+      setOverride(undefined);
     } finally {
-      setIsUploading(false);
+      setBusy(false);
     }
   }
 
-  async function handleFileChange(event: React.ChangeEvent<HTMLInputElement>) {
-    const file = event.target.files?.[0];
-    // Allow selecting the same file again later
-    event.target.value = "";
-
+  async function onFileChange(e: React.ChangeEvent<HTMLInputElement>) {
+    const file = e.target.files?.[0];
+    e.target.value = "";
     if (!file) return;
 
-    if (!ACCEPTED_TYPES.includes(file.type)) {
-      toast.error("Please choose a JPG, PNG, WebP, or GIF image");
+    if (!(ACCEPT as readonly string[]).includes(file.type)) {
+      toast.error("Use JPG, PNG, WebP, or GIF");
       return;
     }
-
-    if (file.size > MAX_FILE_SIZE_BYTES) {
+    if (file.size > MAX_BYTES) {
       toast.error("Image must be 2MB or smaller");
       return;
     }
 
     try {
-      const dataUrl = await readFileAsDataUrl(file);
-      setOptimisticImage(dataUrl);
-      await persistImage(dataUrl);
+      const dataUrl = await fileToDataUrl(file);
+      setOverride(dataUrl);
+      await save(dataUrl);
     } catch {
-      toast.error("Could not read that image file");
-      setOptimisticImage(undefined);
+      toast.error("Could not read that file");
+      setOverride(undefined);
     }
   }
 
-  async function handleRemovePhoto() {
-    setOptimisticImage(null);
-    await persistImage(null);
-  }
-
   return (
-    <div className={cn("relative inline-flex", className)}>
+    <div className={cn("inline-flex", className)}>
       <input
-        ref={fileInputRef}
+        ref={inputRef}
         type="file"
-        accept={ACCEPTED_TYPES.join(",")}
+        accept={ACCEPT.join(",")}
         className="sr-only"
-        aria-hidden
         tabIndex={-1}
-        onChange={(e) => void handleFileChange(e)}
+        aria-hidden
+        onChange={(e) => void onFileChange(e)}
       />
 
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
           <button
             type="button"
-            disabled={isUploading}
-            aria-label="Change profile photo"
+            disabled={busy}
+            aria-label={hasPhoto ? "Edit profile photo" : "Upload profile photo"}
             className={cn(
-              "group relative rounded-full outline-none",
+              // One fixed box: button, avatar, and hover overlay all share this size
+              "group relative size-16 shrink-0 overflow-hidden rounded-full p-0 outline-none",
               "focus-visible:ring-ring focus-visible:ring-2 focus-visible:ring-offset-2",
-              "disabled:pointer-events-none disabled:opacity-70",
+              "disabled:pointer-events-none disabled:opacity-60",
             )}
           >
-            {/* Relative wrapper so the badge is not clipped by Avatar overflow-hidden */}
-            <span className="relative inline-flex size-16">
-              <Avatar
-                size="lg"
-                className="size-16 border text-base transition-opacity group-hover:opacity-90"
-              >
-                {displayImage ? (
-                  <AvatarImage
-                    src={displayImage}
-                    alt={user.name || "Profile photo"}
-                  />
-                ) : null}
-                <AvatarFallback className="text-base font-medium">
-                  {isUploading && !displayImage ? (
-                    <Loader2Icon className="size-5 animate-spin" />
-                  ) : (
-                    initials
-                  )}
-                </AvatarFallback>
-              </Avatar>
-
-              {/* Hover / loading overlay */}
-              <span
-                className={cn(
-                  "pointer-events-none absolute inset-0 z-[1] flex items-center justify-center rounded-full",
-                  "bg-black/45 text-white opacity-0 transition-opacity",
-                  "group-hover:opacity-100 group-focus-visible:opacity-100",
-                  isUploading && "opacity-100",
-                )}
-                aria-hidden
-              >
-                {isUploading ? (
-                  <Loader2Icon className="size-5 animate-spin" />
-                ) : (
-                  <CameraIcon className="size-5" />
-                )}
-              </span>
-
-              {showStatusBadge ? (
-                <span
-                  className="border-background absolute right-0 bottom-0 z-[2] size-3.5 rounded-full border-2 bg-emerald-500 dark:bg-emerald-600"
-                  aria-hidden
+            {/*
+              Do not use Avatar size="lg" — it sets data-[size=lg]:size-10 (40px)
+              which fights size-16 (64px) and leaves the hover layer larger than the image.
+            */}
+            <Avatar className="size-full border text-base">
+              {src ? (
+                <AvatarImage
+                  src={src}
+                  alt={user.name || "Profile photo"}
+                  className="size-full object-cover"
                 />
               ) : null}
+              <AvatarFallback className="size-full text-base font-medium">
+                {busy && !src ? (
+                  <Loader2Icon className="size-5 animate-spin" />
+                ) : (
+                  initials
+                )}
+              </AvatarFallback>
+            </Avatar>
+
+            <span
+              className={cn(
+                "pointer-events-none absolute inset-0 z-[1] flex items-center justify-center rounded-full",
+                "bg-black/50 text-white opacity-0 transition-opacity",
+                "group-hover:opacity-100 group-focus-visible:opacity-100",
+                busy && "opacity-100",
+              )}
+              aria-hidden
+            >
+              {busy ? (
+                <Loader2Icon className="size-5 animate-spin" />
+              ) : (
+                <CameraIcon className="size-5" />
+              )}
             </span>
           </button>
         </DropdownMenuTrigger>
 
-        <DropdownMenuContent align="start" className="w-44">
+        <DropdownMenuContent align="start" className="w-48">
           <DropdownMenuItem
-            disabled={isUploading}
+            disabled={busy}
             onSelect={() => {
-              // Defer so the menu can close before the native file dialog opens
-              window.setTimeout(() => openFilePicker(), 0);
+              window.setTimeout(() => pickFile(), 0);
             }}
           >
             <ImagePlusIcon />
-            Upload photo
+            {hasPhoto ? "Change photo" : "Upload photo"}
           </DropdownMenuItem>
 
           {hasPhoto ? (
@@ -220,9 +178,10 @@ export default function AvatarUploadButton({
               <DropdownMenuSeparator />
               <DropdownMenuItem
                 variant="destructive"
-                disabled={isUploading}
+                disabled={busy}
                 onSelect={() => {
-                  void handleRemovePhoto();
+                  setOverride(null);
+                  void save(null);
                 }}
               >
                 <Trash2Icon />
@@ -236,18 +195,14 @@ export default function AvatarUploadButton({
   );
 }
 
-function readFileAsDataUrl(file: File): Promise<string> {
+function fileToDataUrl(file: File): Promise<string> {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
     reader.onloadend = () => {
-      if (typeof reader.result === "string") {
-        resolve(reader.result);
-      } else {
-        reject(new Error("Could not read image file"));
-      }
+      if (typeof reader.result === "string") resolve(reader.result);
+      else reject(new Error("Invalid file result"));
     };
-    reader.onerror = () =>
-      reject(reader.error ?? new Error("File read failed"));
+    reader.onerror = () => reject(reader.error ?? new Error("Read failed"));
     reader.readAsDataURL(file);
   });
 }

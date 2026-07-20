@@ -5,6 +5,7 @@ import { Resend } from 'resend';
 import ResetPasswordEmail from "./email/ResetPasswordEmail";
 import UpdatedPasswordEmail from "./email/UpdatedPasswordEmail";
 import { twoFactor } from "better-auth/plugins/two-factor";
+import { createNotification } from "./notifications";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
@@ -74,17 +75,30 @@ export const auth = betterAuth({
           }),
       });
     }},
-    onPasswordReset: async ({user}) => {{
+    onPasswordReset: async ({user}) => {
+      // Runs on the server after a successful password reset (has real user.id)
+      try {
+        await createNotification({
+          userId: user.id,
+          title: "Password changed",
+          body: "Your password was updated successfully. If you did not make this change, secure your account immediately.",
+          category: "security",
+          href: "/admin/settings/security",
+        });
+      } catch (err) {
+        console.error("Failed to create password-reset notification:", err);
+      }
+
       await resend.emails.send({
         from: 'No Reply <no-reply@julienbrown.dev>',
         to: user.email,
         subject: "Your Password Has Been Successfully Changed",
         react: UpdatedPasswordEmail({
-          username: user.name, 
+          username: user.name,
           userEmail: user.email,
         }),
       });
-    }},
+    },
   resetPasswordTokenExpiresIn: 900,
   },
   socialProviders: {

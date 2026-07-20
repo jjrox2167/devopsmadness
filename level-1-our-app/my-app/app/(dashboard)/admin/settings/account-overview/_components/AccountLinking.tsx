@@ -11,9 +11,10 @@ import {
   SUPPORTED_OAUTH_PROVIDERS,
   SupportedOAuthProvider,
 } from "@/lib/o-auth-providers";
-import { router } from "better-auth/api";
 import { BadgeCheck, Plus, Shield, Trash2 } from "lucide-react";
 import { useRouter } from "next/navigation";
+
+export { AccountLinkingSkeleton } from "./AccountLinkingSkeleton";
 
 type Account = Awaited<ReturnType<typeof auth.api.listUserAccounts>>[number];
 

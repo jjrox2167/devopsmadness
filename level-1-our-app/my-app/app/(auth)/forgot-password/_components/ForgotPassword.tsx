@@ -18,6 +18,7 @@ export default function ForgotPassword() {
   return (
     <div className="flex min-h-screen items-center justify-center bg-muted/30 p-4">
       <div className="w-full max-w-sm">
+        
         {/* Logo/Company Name */}
         <div className="mb-6 flex items-center justify-center gap-3">
           <div className="bg-foreground flex size-9 items-center justify-center rounded-lg">
@@ -27,7 +28,7 @@ export default function ForgotPassword() {
         </div>
 
         {/* Card */}
-        <div className="bg-white border-border/60 rounded-2xl border p-6 shadow-sm">
+        <div className="bg-primary border-border/60 rounded-2xl border p-6 shadow-sm">
           {submitted ? (
             // Success State (reuses the same card)
             <ResetLinkSent onBack={() => {

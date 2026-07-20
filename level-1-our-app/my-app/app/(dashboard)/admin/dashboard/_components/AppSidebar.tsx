@@ -34,17 +34,12 @@ import {
   SidebarHeader,
   SidebarRail,
 } from "@/components/ui/sidebar"
-import build from "next/dist/build"
+import { authClient } from "@/lib/auth-client"
 import { NavResources } from "./NavResources"
 import { Separator } from "@/components/ui/separator"
 
-// This is sample data.
+// Sample nav / property data (user comes from the session below).
 const data = {
-  user: {
-    name: "shadcn",
-    email: "m@example.com",
-    avatar: "/avatars/shadcn.jpg",
-  },
   properties: [
     {
       name: "Oakwood Store",
@@ -75,6 +70,10 @@ const data = {
         {
           title: "Overview",
           url: "#",
+        },
+         {
+          title: "Notifications",
+          url: "/admin/notifications",
         },
         {
           title: "Analytics",
@@ -149,29 +148,36 @@ const data = {
 }
 
 export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
+  const { data: session, isPending } = authClient.useSession()
+
+  const user = {
+    name: session?.user.name ?? (isPending ? "Loading…" : "User"),
+    email: session?.user.email ?? "",
+    // NavUser expects `avatar`; better-auth stores it as `image`
+    avatar: session?.user.image ?? "",
+  }
+
   return (
     <Sidebar variant="inset" collapsible="icon" {...props}>
-  <SidebarHeader>
-    <PropertySwitcher Properties={data.properties} />
-  </SidebarHeader>
+      <SidebarHeader>
+        <PropertySwitcher Properties={data.properties} />
+      </SidebarHeader>
 
-  <Separator />
+      <Separator />
 
-  <SidebarContent className="overflow-y-auto">
-    <NavMain items={data.navMain} />
-    <NavApps Apps={data.Apps} />
+      <SidebarContent className="overflow-y-auto">
+        <NavMain items={data.navMain} />
+        <NavApps Apps={data.Apps} />
+      </SidebarContent>
 
-    
+      <Separator />
+      <NavResources Resources={data.Resources} />
 
-    
-  </SidebarContent>
-  <Separator />
-    <NavResources Resources={data.Resources} />
-  <SidebarFooter>
-    <NavUser user={data.user} />
-  </SidebarFooter>
+      <SidebarFooter>
+        <NavUser user={user} />
+      </SidebarFooter>
 
-  <SidebarRail />
-</Sidebar>
+      <SidebarRail />
+    </Sidebar>
   )
 }

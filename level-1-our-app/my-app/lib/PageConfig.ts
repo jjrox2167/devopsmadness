@@ -6,6 +6,10 @@ export const pageConfig = {
     title: "Dashboard",
     description: "View your application overview and metrics.",
   },
+  "/admin/notifications": {
+    title: "Notifications",
+    description: "Security alerts, billing updates, and account activity.",
+  },
   "/dashboard/users": {
     title: "Users",
     description: "Manage users, roles, and permissions.",

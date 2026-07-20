@@ -102,9 +102,9 @@ export const columns: ColumnDef<Session>[] = [
     return (
       <div className="flex justify-end">
         <EndSessionDialog
-  token={row.original.token}
-  isCurrentSession={row.original.token === currentSessionToken}
-/>
+          token={row.original.token}
+          isCurrentSession={false}
+        />
       </div>
     )
   },

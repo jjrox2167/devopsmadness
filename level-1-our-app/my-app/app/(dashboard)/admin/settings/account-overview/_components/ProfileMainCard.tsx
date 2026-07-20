@@ -15,12 +15,22 @@ import { Field, FieldLabel } from "@/components/ui/field";
 import { Input } from "@/components/ui/input";
 import { Empty, EmptyContent, EmptyDescription, EmptyHeader, EmptyMedia, EmptyTitle } from "@/components/ui/empty";
 import { Avatar, AvatarFallback } from "@/components/ui/avatar";
-
+import { formatDisplayDate, splitFullName } from "./profile-utils";
 export default function ProfileMainCard({
   user,
 }: {
   user: AccountOverviewUser;
 }) {
+
+  const { firstName, lastName } = splitFullName(user.name || "");
+  const dateBirth = formatDisplayDate(user.dateOfBirth)
+  const GenderFirstLetter = String(user.gender?.charAt(0))
+  const CapitalGenderFirstLetter = GenderFirstLetter.toUpperCase()
+  const userGender = CapitalGenderFirstLetter + (user.gender?.slice(1))
+  const CountryFirstLetter = String(user.country?.charAt(0))
+  const CapitalCountryFirstLetter = CountryFirstLetter.toUpperCase()
+  const userCountry = CapitalCountryFirstLetter + (user.country?.slice(1))
+
   return (
     <div>
       <Card>
@@ -49,7 +59,7 @@ export default function ProfileMainCard({
               </FieldLabel>
               <Input
                 id="checkout-7j9-card-name-43j"
-                placeholder="Evil Rabbit"
+                placeholder={firstName}
                 disabled
               />
             </Field>
@@ -59,7 +69,7 @@ export default function ProfileMainCard({
               </FieldLabel>
               <Input
                 id="checkout-7j9-card-name-43j"
-                placeholder="Evil Rabbit"
+                placeholder={lastName}
                 disabled
               />
             </Field>
@@ -71,7 +81,7 @@ export default function ProfileMainCard({
               </FieldLabel>
               <Input
                 id="checkout-7j9-card-name-43j"
-                placeholder="Evil Rabbit"
+                placeholder={dateBirth}
                 disabled
               />
             </Field>
@@ -81,7 +91,7 @@ export default function ProfileMainCard({
               </FieldLabel>
               <Input
                 id="checkout-7j9-card-name-43j"
-                placeholder="Evil Rabbit"
+                placeholder={userGender}
                 disabled
               />
             </Field>
@@ -91,7 +101,7 @@ export default function ProfileMainCard({
               </FieldLabel>
               <Input
                 id="checkout-7j9-card-name-43j"
-                placeholder="Evil Rabbit"
+                placeholder={userCountry}
                 disabled
               />
             </Field>
@@ -129,3 +139,4 @@ export default function ProfileMainCard({
     </div>
   );
 }
+

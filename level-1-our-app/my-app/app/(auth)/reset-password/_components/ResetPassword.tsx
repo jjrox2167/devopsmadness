@@ -15,10 +15,10 @@ import { useState } from "react";
 import { Loader2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import Link from "next/link";
-import { toast, ToastToDismiss } from "sonner";
+import { toast } from "sonner";
 import { useRouter } from "next/navigation";
 import { PasswordSchema } from "@/lib/schema";
-import { set, z, ZodError } from "zod";
+import { z } from "zod";
 
 export default function ResetPassword() {
   const [password, setPassword] = useState("");
@@ -68,12 +68,15 @@ const ResetPasswordSchema = z
       setError(result.error.issues[0].message); // Show only first error
       setIsPending(false);
       return;
+
     } if (password !== confirmPassword) { // Checks the first two password fields; Thus preventing mismatched passwords and running unecessary API calls
       setError("Passwords do not match.");
       setIsLoading(false);
       return;
+
     } else if (!token) {  // Seconf check on if validity of token || If no token is found or valid, it notifies user of error
       throw new Error("This link is no longer valid. Please request a new one.");
+    
     }
     const {data, error: apiError } = await authClient.resetPassword({ // If all validations pass, proceed with API call for reset password
       newPassword: password, // inputs the value taken fron 'password' only after passing validation comparison and onclick of submit
@@ -84,7 +87,9 @@ const ResetPasswordSchema = z
       throw new Error(apiError.message ||"Failed to reset password. Please try again."); // Default error message if none provided by API
     }
 
-    setSuccess(true) // If successful, update UI to reflect success and initiate redirect
+    // Notification is created server-side in auth.ts → onPasswordReset
+    // (client components cannot use Prisma / createNotification directly).
+    setSuccess(true);
     toast.success("Password reset successfully! Redirecting to sign in...");
     setTimeout(() => router.push("/sign-in?reset=success"), // Redirects user to sign-in page after successful password reset
       4000); // 4 second delay before redirecting to allow user to read success message

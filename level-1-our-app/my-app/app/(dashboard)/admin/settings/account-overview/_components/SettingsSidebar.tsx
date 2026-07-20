@@ -1,8 +1,11 @@
 "use client";
 
 import Link from "next/link";
+import { usePathname } from "next/navigation";
 import { Tabs, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import { User, CreditCard, Shield, Link2, type LucideIcon } from "lucide-react";
+
+export { SettingsSidebarSkeleton } from "./SettingsSidebarSkeleton";
 
 type TabConfig = {
   value: string;
@@ -38,9 +41,23 @@ const tabConfig: TabConfig[] = [
   },
 ];
 
+function getActiveTab(pathname: string | null): string {
+  if (!pathname) return "account-overview";
+
+  const match = tabConfig.find(
+    (tab) =>
+      pathname === tab.href || pathname.startsWith(`${tab.href}/`),
+  );
+
+  return match?.value ?? "account-overview";
+}
+
 export default function SettingsSidebar() {
+  const pathname = usePathname();
+  const activeTab = getActiveTab(pathname);
+
   return (
-    <Tabs defaultValue="account-overview" orientation="vertical">
+    <Tabs value={activeTab} orientation="vertical">
       <TabsList className="flex h-auto w-72 flex-col items-stretch gap-1 bg-transparent p-1">
         {tabConfig.map((tab) => {
           const Icon = tab.icon;
